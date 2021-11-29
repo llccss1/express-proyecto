@@ -2,47 +2,9 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const characters = require("../data/personajes.json");
 const movies = require("../data/peliculas.json");
-const { MongoClient } = require('mongodb'); //carho el modulo de mongodb
-
-/* //esto lo traje de mongodb
-//conexion a mongodb
-const { MongoClient } = require('mongodb');
-const uri = "mongodb+srv://lucasq:lucasq@cluster0.vyn44.mongodb.net/ejemploDB?retryWrites=true&w=majority";
-const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
-client.connect(err => {
-  const collection = client.db("test").collection("devices");
-  // perform actions on the collection object
-  client.close();
-});
-//fin conexion a mongodb
-*/
 
 const app = express();
 const PORT = 3000;
-
-///// conexion a la db de manera sincrona
-//estas variables lo definimos afuera para poder utilizarlas en todas las funciones
-let dataBaseObject = {};
-let characterCollectionObj = {};
-let movieCollectionObj = {};
-
-//agregando async informamos que la funcion es asincrona
-const dbConnection = async () => { 
-    const uri = "mongodb+srv://lucasq:lucasq@cluster0.vyn44.mongodb.net/ejemploDB?retryWrites=true&w=majority";
-    const client = new MongoClient(uri, { useUnifiedTopology: true });
-    try {
-        //conectar el backend con el cluster de mongodb
-        await client.connect();
-        dataBaseObject = await client.db("ejemploDB");
-        characterCollectionObj = dataBaseObject.collection("personajes");
-        moviesCollectionObj = dataBaseObject.collection("peliculas");
-        console.log("Cloud DB Connected - Mongo DB");//mensaje para ver si se conectó correctamente
-    } catch (error) {
-        console.log("=====>",error);
-    }
-};
-dbConnection().catch(console.error);
-///// fin - conexion a la db de manera sincrona
 
 const mappedCharacters = characters.map((item) => {
   return {
@@ -58,14 +20,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //---- Recurso PERSONAJE ----//
 
 // metodo get de personajes //
-app.get("/personajes", async (req, res) => {
-  try {
-    const allPersonajes = await characterCollectionObj.find({}).toArray();
-    res.status(200).send(allPersonajes);
-  } catch (error) {
-    console.log("=====>",error);
-    res.status(500).send(error);
-  }
+app.get("/personajes", (req, res) => {
+  res.status(200).send(mappedCharacters);
 });
 
 // metodo get por id //
