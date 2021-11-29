@@ -56,9 +56,9 @@ app.post("/personajes", (req, res) => {
     res.status(200).send(response);
 });
 
-// metodo put para personajes // no me funciona, ver xq
+// metodo put para personajes //
 app.put("/personajes/:id", (req, res) => {
-    //console.log(req.body);
+    //console.log(req.body);    
     const doesItExist = mappedCharacters.some((item) => item.id === req.params.id);
 
     if (!doesItExist) {
@@ -74,14 +74,14 @@ app.put("/personajes/:id", (req, res) => {
 
 });
 
-// metodo put para personajes //
+// metodo delete para personajes //
 app.delete("/personajes/:id", (req, res) => {
     //console.log(req.body);
     const doesItExist = mappedCharacters.some((item) => item.id === req.params.id);
 
     if (doesItExist) {
         const character = mappedCharacters.filter(
-            (character) => character.id !== req.params.id
+            (item) => item.id !== req.params.id
         )
         res.status(200).send(character);
     } else {
