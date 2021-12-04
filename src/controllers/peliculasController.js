@@ -1,7 +1,7 @@
 const models = require("../models");
-const mongoose = require("mongoose");
+//const mongoose = require("mongoose");
 
-const objectIdValidator = mongoose.types.ObjectId;
+//const objectIdValidator = mongoose.types.ObjectId;
 
 const getPeliculas = async (req, res) => {
     try {
@@ -27,13 +27,14 @@ const getPeliculaById = async (req, res) => {
     try {
 
         const peliculaId = req.params.id;
-        const isValid = objectIdValidator.isValid(PeliculaId);
+        /*
+        const isValid = objectIdValidator.isValid(peliculaId);
         if (!isValid) {
             res.status(500).json({
                 data: `El valor ${peliculaId} no es un ID válido de MongoDB`,
                 error: true,
               });
-        }
+        }*/
       
         const response = await models.Peliculas.findById(peliculaId);
     
