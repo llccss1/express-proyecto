@@ -1,10 +1,11 @@
+require("dotenv").config(); //para configurar las variables de entorno
+
 const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const PORT = 3000;
-const MONGO_URL = 
-    "mongodb+srv://lucasq:lucasq@cluster0.vyn44.mongodb.net/ejemploDB?retryWrites=true&w=majority";
+const PORT = process.env.PORT || 3000;
+const MONGO_URL = process.env.MONGO_DB_URI;   
 
 const app = express();
 const router = require("../routes/index");
